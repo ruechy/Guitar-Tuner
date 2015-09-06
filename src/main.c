@@ -70,7 +70,6 @@ int main( int argc, char **argv ) {
    int result = initPortAudio(&err, &inputParameters, &stream);
    if(result) goto error; //If result is non-zero, something is wrong
 
-   waitForStart();
    listen(&err, stream, data, mem1, mem2, a, b, window, datai, freqTable, notePitchTable,
       noteNameTable, fft);
 
@@ -150,6 +149,8 @@ void listen(PaError * errp, PaStream * stream, float * data, float * mem1, float
 void outputPitch(char* nearestNoteName, int nearestNoteDelta, float centsSharp){
       printf("\033[2J\033[1;1H"); //clear screen, go to top left
       fflush(stdout);
+      printf( "Tuner listening. Control-C to exit.\n" );
+      printf( "%f Hz, %d : %f\n", freq, maxIndex, maxVal*1000 );
       printf( "Nearest Note: %s\n", nearestNoteName );
       if( nearestNoteDelta != 0 ) {
          if( centsSharp > 0 )
@@ -265,14 +266,6 @@ void handleErrors(PaStream * stream, PaError err, void * fft){
    fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
 }
 
-//Program will not proceed until r is entered
-void waitForStart(){
-   char start = '\n';
-   printf("Enter 'r' to start recording.\n");
-   while(start != 'r'){
-      start = getchar();
-   }
-}
 
 //Creates window signal in order to reduce reading of frequencies that are not actually present
 void buildHanWindow( float *window, int size )
