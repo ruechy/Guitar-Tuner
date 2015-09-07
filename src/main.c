@@ -38,7 +38,7 @@ void handleErrors(PaStream * stream, PaError err, void* ftt);
 void handleSignals();
 void initTables(float * mem1, float * mem2, float * freqTable, char** noteNameTable, float * notePitchTable);
 int initPortAudio(PaError * err, PaStreamParameters * inputParametersp, PaStream ** stream);
-void outputPitch(char* nearestNoteName, int nearestNoteDelta, float centsSharp);
+void outputPitch(char* nearestNoteName, int nearestNoteDelta, float centsSharp, float freq, int maxIndex, float maxVal);
 void listen(PaError * errp, PaStream * stream, float * data, float * mem1, float * mem2, float * a,
    float * b, float * window, float * datai, float * freqTable, float * notePitchTable, 
    char ** noteNameTable, void * fft);
