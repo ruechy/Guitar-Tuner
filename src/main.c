@@ -110,10 +110,6 @@ void listen(PaError * errp, PaStream * stream, float * data, float * mem1, float
       for( int j=0; j<FFT_SIZE; ++j )
          datai[j] = 0;
       applyfft( fft, data, datai, false );
-      // char * nearestNoteName; float nearestNotePitch; float centsSharp; int nearestNoteDelta;
-      // findPeakAndNearest(&nearestNoteName, &nearestNotePitch, &centsSharp, &nearestNoteDelta, 
-      //    data, datai, freqTable, notePitchTable, noteNameTable);
-
       float maxVal = -1;
       int maxIndex = -1;
       for( int j=0; j<FFT_SIZE/2; ++j ) {
@@ -138,15 +134,12 @@ void listen(PaError * errp, PaStream * stream, float * data, float * mem1, float
       char * nearestNoteName = noteNameTable[maxIndex+nearestNoteDelta];
       float nearestNotePitch = notePitchTable[maxIndex+nearestNoteDelta];
       float centsSharp = 1200 * log( freq / nearestNotePitch ) / log( 2.0 );
-
-
-      //updateScore();
-      outputPitch(nearestNoteName, nearestNoteDelta, centsSharp);
+      outputPitch(nearestNoteName, nearestNoteDelta, centsSharp, freq, maxIndex, maxVal);
    }
 }
 
 //Output the pitch heard and the degree of "pitchiness"
-void outputPitch(char* nearestNoteName, int nearestNoteDelta, float centsSharp){
+void outputPitch(char* nearestNoteName, int nearestNoteDelta, float centsSharp, float freq, int maxIndex, float maxVal){
       printf("\033[2J\033[1;1H"); //clear screen, go to top left
       fflush(stdout);
       printf( "Tuner listening. Control-C to exit.\n" );
