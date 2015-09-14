@@ -1,3 +1,5 @@
+This branch of guitartuner functions exactly the same as the original--the only difference is some additional comments and decomposition.
+
 guitartuner
 ===========
 
